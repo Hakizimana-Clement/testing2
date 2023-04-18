@@ -3,6 +3,9 @@ require("dotenv").config();
 const express = require("express");
 //import mongoose
 const mongoose = require("mongoose");
+
+const cors = require("cors");
+
 // import routes
 
 // emailroutes
@@ -13,8 +16,16 @@ const contactRoutes = require("./routes/contact");
 const StoreItemsRoutes = require("./routes/storeItems");
 
 const bodyParser = require("body-parser");
+
 const app = express();
+
 app.use(bodyParser.json());
+
+app.use(
+  cors({
+    origin: ["http://localhost:3000/", "https://igitn.onrender.com/"],
+  })
+);
 ////////////////////////////////////////////////////////////////
 
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
