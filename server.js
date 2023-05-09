@@ -14,14 +14,12 @@ const contactRoutes = require("./routes/contact");
 // store Items routes
 const StoreItemsRoutes = require("./routes/storeItems");
 
-const bodyParser = require("body-parser");
-
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+// const bodyParser = require("body-parser");
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
 
-app.use(cors());
 ////////////////////////////////////////////////////////////////
 
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
@@ -35,6 +33,10 @@ app.use((req, res, next) => {
   console.log(req.path, req.method);
   next();
 });
+app.use(cors());
+app.use(express.static("public"));
+app.use(express.json());
+
 // routes
 // emal route
 app.use("/api/emails", emailRoutes);
@@ -43,31 +45,30 @@ app.use("/api/contacts", contactRoutes);
 // store Items route
 app.use("/api/stores", StoreItemsRoutes);
 
-//////////////// STRIPE ROUTE ///////////////////////////////////
-app.post("/payment", async (req, res) => {
-  let status, error;
-  const { amount, token } = req.body;
-  console.log(token);
-  try {
-    await stripe.charges.create({
-      source: token.id,
-      amount,
-      currency: "usd",
-      receipt_email: token.email,
-      shipping: {
-        name: token.card.name,
-        address: {
-          country: token.card.address_country,
-        },
-      },
+//////////////// NEW ONE STRIPE ROUTE ///////////////////////////////////
+app.post("/checkout", async (req, res) => {
+  console.log(req.body);
+  const items = req.body.items;
+  let lineItems = [];
+  items.forEach((item) => {
+    lineItems.push({
+      price: item.id,
+      quantity: item.quantity,
     });
-    status = "success";
-  } catch (error) {
-    console.log(error);
-    status = "failure";
-  }
+  });
 
-  res.json({ error, status });
+  const session = await stripe.checkout.sessions.create({
+    line_items: lineItems,
+    mode: "payment",
+    success_url: "http://localhost:3000/success",
+    cancel_url: "http://localhost:3000/cancel",
+  });
+
+  res.send(
+    JSON.stringify({
+      url: session.url,
+    })
+  );
 });
 ////////////////////////////////////////////////////////////////
 // connection
