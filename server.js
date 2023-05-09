@@ -60,8 +60,8 @@ app.post("/checkout", async (req, res) => {
   const session = await stripe.checkout.sessions.create({
     line_items: lineItems,
     mode: "payment",
-    success_url: "http://localhost:3000/success",
-    cancel_url: "http://localhost:3000/cancel",
+    success_url: process.env.SUCCESS_URL,
+    cancel_url: process.env.CANCEL_URL,
   });
 
   res.send(
