@@ -43,28 +43,32 @@ app.use("/api/stores", StoreItemsRoutes);
 
 //////////////// NEW ONE STRIPE ROUTE ///////////////////////////////////
 app.post("/checkout", async (req, res) => {
-  console.log(req.body);
-  const items = req.body.items;
-  let lineItems = [];
-  items.forEach((item) => {
-    lineItems.push({
-      price: item.id,
-      quantity: item.quantity,
+  try {
+    console.log(req.body);
+    const items = req.body.items;
+    let lineItems = [];
+    items.forEach((item) => {
+      lineItems.push({
+        price: item.id,
+        quantity: item.quantity,
+      });
     });
-  });
 
-  const session = await stripe.checkout.sessions.create({
-    line_items: lineItems,
-    mode: "payment",
-    success_url: process.env.SUCCESS_URL,
-    cancel_url: process.env.CANCEL_URL,
-  });
+    const session = await stripe.checkout.sessions.create({
+      line_items: lineItems,
+      mode: "payment",
+      success_url: process.env.SUCCESS_URL,
+      cancel_url: process.env.CANCEL_URL,
+    });
 
-  res.send(
-    JSON.stringify({
-      url: session.url,
-    })
-  );
+    res.send(
+      JSON.stringify({
+        url: session.url,
+      })
+    );
+  } catch (error) {
+    console.log(error);
+  }
 });
 ////////////////////////////////////////////////////////////////
 // connection
