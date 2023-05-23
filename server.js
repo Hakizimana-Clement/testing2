@@ -16,10 +16,6 @@ const StoreItemsRoutes = require("./routes/storeItems");
 
 const app = express();
 
-// const bodyParser = require("body-parser");
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(bodyParser.json());
-
 ////////////////////////////////////////////////////////////////
 
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
