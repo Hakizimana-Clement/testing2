@@ -8,12 +8,4 @@ const emailSchema = new Schema(
   },
   { timestamps: true }
 );
-
-// const emailSchema = new Schema(
-//   {
-//     email: String,
-//   },
-//   { timestamps: true }
-// );
-// export as model
 module.exports = mongoose.model("Email", emailSchema);
