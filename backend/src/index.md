@@ -1,10 +1,8 @@
 require("dotenv").config();
-// import express
 const express = require("express");
-//import mongoose
 const mongoose = require("mongoose");
-// import routes
 
+// import routes
 // emailroutes
 const emailRoutes = require("./routes/email");
 // contact routes
