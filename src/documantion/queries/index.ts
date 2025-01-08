@@ -1,6 +1,5 @@
-import { required } from "joi";
 import { responses } from "../responses";
-import { Schema } from "mongoose";
+
 const createQuery = {
   tags: ["Queries"],
   summary: "creating new query",

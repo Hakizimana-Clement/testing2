@@ -1,9 +1,11 @@
+import cookieParser from "cookie-parser";
 import express, { Request, Response } from "express";
 import swaggerUi from "swagger-ui-express";
 import docs from "./documantion";
 import router from "./routes";
 
 const app = express();
+
 const swaggerOptions = {
   validatorUrl: null,
   oauth: {
@@ -11,6 +13,7 @@ const swaggerOptions = {
   },
 };
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(
   "/api/v2/docs",

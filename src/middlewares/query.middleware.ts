@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { sendResponse } from "../utils/http.expection";
-import queriesValid from "../validations/query.valitation";
 import mongoose from "mongoose";
+import { sendResponse } from "../utils/http.expection";
+import queriesValid from "../validations/query.validation";
 
 const isQueryValid = (req: Request, res: Response, next: NextFunction) => {
   const error = queriesValid(req.body);
