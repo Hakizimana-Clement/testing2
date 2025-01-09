@@ -9,7 +9,7 @@ export interface TokenData {
 }
 
 export const generateAccessToken = (userData: TokenData) => {
-  const token = jwt.sign(userData, ACCESS_TOKEN_SERCET, { expiresIn: "20m" });
+  const token = jwt.sign(userData, ACCESS_TOKEN_SERCET, { expiresIn: "25m" });
   return token;
 };
 
