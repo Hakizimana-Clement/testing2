@@ -1,6 +1,8 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
+
 const Schema = mongoose.Schema;
-const contactSchema = new Schema(
+
+const queriesSchema = new Schema(
   {
     name: { type: String, required: true },
     email: { type: String, required: true },
@@ -9,4 +11,4 @@ const contactSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Contact", contactSchema);
+export default mongoose.model("querries", queriesSchema);
